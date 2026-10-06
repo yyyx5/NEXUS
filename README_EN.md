@@ -180,8 +180,8 @@ The public version is a reference implementation extracted from a running system
 Requires Python 3.10+ and SQLite with JSON and FTS5 trigram support.
 
 ```sh
-git clone https://github.com/yyyx5/nexus-personal-memory.git
-cd nexus-personal-memory
+git clone https://github.com/yyyx5/nexus.git
+cd nexus
 
 python3 -B scripts/demo.py
 python3 -B -m unittest discover -s tests -v

@@ -180,8 +180,8 @@ Nexus 不保证自动找齐所有相关历史，也不会把“没有检索到�
 需要 Python 3.10+，以及支持 JSON 和 FTS5 trigram 的 SQLite。
 
 ```sh
-git clone https://github.com/yyyx5/nexus-personal-memory.git
-cd nexus-personal-memory
+git clone https://github.com/yyyx5/nexus.git
+cd nexus
 
 python3 -B scripts/demo.py
 python3 -B -m unittest discover -s tests -v

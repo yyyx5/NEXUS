@@ -1,0 +1,748 @@
+[
+  {
+    "name": "nexus_save",
+    "description": "保存当前用户原话对应的1..10个提议，一次事务。第一项必须通用record，额外人物/事件/转述可批量添加。身份和source由服务器绑定，不能传source或路径。pending_source尚未保存。 成功返回user_confirmation和receipts；向用户说明实际保存档案/分类/财务明细状态，原话兜底不冒充结构化完成。",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "proposals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "record",
+                  "entity",
+                  "event",
+                  "claim"
+                ]
+              },
+              "title": {
+                "type": "string"
+              },
+              "body": {
+                "type": "string"
+              },
+              "domain": {
+                "type": "string",
+                "enum": [
+                  "life",
+                  "work",
+                  "health",
+                  "unclassified"
+                ],
+                "description": "仅四类；冥想/感悟/碎碎念/旅行属于life，health默认受限，不确定用unclassified。"
+              },
+              "quote": {
+                "type": "string"
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 20
+              },
+              "aliases": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 20
+              },
+              "payload": {
+                "type": "object"
+              },
+              "assertion_kind": {
+                "type": "string",
+                "enum": [
+                  "user_report",
+                  "third_party_report",
+                  "user_judgment",
+                  "user_feeling",
+                  "ai_inference",
+                  "unconfirmed",
+                  "plan"
+                ]
+              },
+              "certainty": {
+                "type": "string",
+                "enum": [
+                  "stated",
+                  "uncertain",
+                  "unknown",
+                  "retracted"
+                ]
+              },
+              "perspective": {
+                "type": "string",
+                "enum": [
+                  "user",
+                  "third_party",
+                  "ai"
+                ]
+              },
+              "temporal_status": {
+                "type": "string",
+                "enum": [
+                  "occurred",
+                  "planned",
+                  "unknown"
+                ]
+              },
+              "valid_from": {
+                "type": "string"
+              },
+              "valid_to": {
+                "type": "string"
+              },
+              "time_expression": {
+                "type": "string"
+              },
+              "time_precision": {
+                "type": "string",
+                "enum": [
+                  "unknown",
+                  "year",
+                  "month",
+                  "day",
+                  "instant",
+                  "range"
+                ]
+              },
+              "timezone": {
+                "type": "string"
+              },
+              "visibility": {
+                "type": "string",
+                "enum": [
+                  "private",
+                  "restricted"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "active",
+                  "review",
+                  "deleted"
+                ]
+              },
+              "task": {
+                "type": "object",
+                "properties": {
+                  "state": {
+                    "type": "string",
+                    "enum": [
+                      "open",
+                      "done",
+                      "cancelled",
+                      "paused"
+                    ]
+                  },
+                  "due_date": {
+                    "type": "string"
+                  },
+                  "due_expression": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "state"
+                ],
+                "additionalProperties": false
+              },
+              "financial": {
+                "type": "object",
+                "properties": {
+                  "amount_minor": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000000000000
+                  },
+                  "currency": {
+                    "type": "string",
+                    "enum": [
+                      "CNY",
+                      "USD",
+                      "EUR",
+                      "HKD",
+                      "GBP",
+                      "JPY"
+                    ]
+                  },
+                  "scale": {
+                    "type": "integer"
+                  },
+                  "direction": {
+                    "type": "string",
+                    "enum": [
+                      "expense",
+                      "income",
+                      "refund"
+                    ]
+                  },
+                  "entry_class": {
+                    "type": "string",
+                    "enum": [
+                      "booked",
+                      "quote",
+                      "budget",
+                      "commitment"
+                    ]
+                  },
+                  "occurred_date": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "amount_minor",
+                  "currency",
+                  "direction"
+                ],
+                "additionalProperties": false
+              },
+              "schedule": {
+                "type": "object",
+                "properties": {
+                  "start_date": {
+                    "type": "string"
+                  },
+                  "end_date": {
+                    "type": "string"
+                  },
+                  "time_expression": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "time_expression"
+                ],
+                "additionalProperties": false
+              },
+              "group_id": {
+                "type": "string",
+                "description": "固定档案编号。明确指定或内容吻合的当前档案才可关联；空字符串仅用于明确移出。"
+              },
+              "group_name": {
+                "type": "string",
+                "description": "用户原话中的档案名称；同名有歧义则待归组。"
+              },
+              "group_relevance": {
+                "type": "string",
+                "enum": [
+                  "context"
+                ],
+                "description": "仅内容属于当前档案且domain吻合时使用。"
+              },
+              "group_profile": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "aliases": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "state": {
+                    "type": "string",
+                    "enum": [
+                      "open",
+                      "closed"
+                    ]
+                  },
+                  "start_date": {
+                    "type": "string"
+                  },
+                  "end_date": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              },
+              "context_action": {
+                "type": "string",
+                "enum": [
+                  "activate",
+                  "clear"
+                ],
+                "description": "仅档案卡可用，用户明确要求设为当前/结束时使用，24小时过期。"
+              },
+              "summary_for_group": {
+                "type": "string",
+                "description": "用户明确要求档案汇总时使用固定group_id；服务生成带版本清单的费用快照，不能同时财务入账/关联成员。"
+              }
+            },
+            "required": [],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "maxItems": 10
+        }
+      },
+      "required": [
+        "proposals"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "nexus_update",
+    "description": "纠正已保存对象。先查得item_id/revision_id，必须expected_revision；当前纠错原话由服务器绑定，生成新revision，旧版本保留。 成功返回user_confirmation和receipts；向用户说明实际保存档案/分类/财务明细状态，原话兜底不冒充结构化完成。 取消日程必须更新原schedule，patch.status=deleted；服务返回schedule_state=cancelled，历史保留，不得附加task。目标不唯一先查询，请用户指明item ID。",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "item_id": {
+          "type": "string"
+        },
+        "expected_revision": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "patch": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "record",
+                "entity",
+                "event",
+                "claim"
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "body": {
+              "type": "string"
+            },
+            "domain": {
+              "type": "string",
+              "enum": [
+                "life",
+                "work",
+                "health",
+                "unclassified"
+              ]
+            },
+            "quote": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 20
+            },
+            "aliases": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 20
+            },
+            "payload": {
+              "type": "object"
+            },
+            "assertion_kind": {
+              "type": "string",
+              "enum": [
+                "user_report",
+                "third_party_report",
+                "user_judgment",
+                "user_feeling",
+                "ai_inference",
+                "unconfirmed",
+                "plan"
+              ]
+            },
+            "certainty": {
+              "type": "string",
+              "enum": [
+                "stated",
+                "uncertain",
+                "unknown",
+                "retracted"
+              ]
+            },
+            "perspective": {
+              "type": "string",
+              "enum": [
+                "user",
+                "third_party",
+                "ai"
+              ]
+            },
+            "temporal_status": {
+              "type": "string",
+              "enum": [
+                "occurred",
+                "planned",
+                "unknown"
+              ]
+            },
+            "valid_from": {
+              "type": "string"
+            },
+            "valid_to": {
+              "type": "string"
+            },
+            "time_expression": {
+              "type": "string"
+            },
+            "time_precision": {
+              "type": "string",
+              "enum": [
+                "unknown",
+                "year",
+                "month",
+                "day",
+                "instant",
+                "range"
+              ]
+            },
+            "timezone": {
+              "type": "string"
+            },
+            "visibility": {
+              "type": "string",
+              "enum": [
+                "private",
+                "restricted"
+              ]
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "active",
+                "review",
+                "deleted"
+              ]
+            },
+            "task": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "string",
+                  "enum": [
+                    "open",
+                    "done",
+                    "cancelled",
+                    "paused"
+                  ]
+                },
+                "due_date": {
+                  "type": "string"
+                },
+                "due_expression": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "state"
+              ],
+              "additionalProperties": false
+            },
+            "financial": {
+              "type": "object",
+              "properties": {
+                "amount_minor": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000000000
+                },
+                "currency": {
+                  "type": "string",
+                  "enum": [
+                    "CNY",
+                    "USD",
+                    "EUR",
+                    "HKD",
+                    "GBP",
+                    "JPY"
+                  ]
+                },
+                "scale": {
+                  "type": "integer"
+                },
+                "direction": {
+                  "type": "string",
+                  "enum": [
+                    "expense",
+                    "income",
+                    "refund"
+                  ]
+                },
+                "entry_class": {
+                  "type": "string",
+                  "enum": [
+                    "booked",
+                    "quote",
+                    "budget",
+                    "commitment"
+                  ]
+                },
+                "occurred_date": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "amount_minor",
+                "currency",
+                "direction"
+              ],
+              "additionalProperties": false
+            },
+            "schedule": {
+              "type": "object",
+              "properties": {
+                "start_date": {
+                  "type": "string"
+                },
+                "end_date": {
+                  "type": "string"
+                },
+                "time_expression": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "time_expression"
+              ],
+              "additionalProperties": false
+            },
+            "group_id": {
+              "type": "string",
+              "description": "固定档案编号。明确指定或内容吻合的当前档案才可关联；空字符串仅用于明确移出。"
+            },
+            "group_name": {
+              "type": "string",
+              "description": "用户原话中的档案名称；同名有歧义则待归组。"
+            },
+            "group_relevance": {
+              "type": "string",
+              "enum": [
+                "context"
+              ],
+              "description": "仅内容属于当前档案且domain吻合时使用。"
+            },
+            "group_profile": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "aliases": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "state": {
+                  "type": "string",
+                  "enum": [
+                    "open",
+                    "closed"
+                  ]
+                },
+                "start_date": {
+                  "type": "string"
+                },
+                "end_date": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            },
+            "context_action": {
+              "type": "string",
+              "enum": [
+                "activate",
+                "clear"
+              ],
+              "description": "仅档案卡可用，用户明确要求设为当前/结束时使用，24小时过期。"
+            },
+            "summary_for_group": {
+              "type": "string",
+              "description": "用户明确要求更新汇总时使用，重新生成快照并保留旧版本。"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "item_id",
+        "expected_revision",
+        "reason",
+        "patch"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "nexus_search",
+    "description": "有界查询当前私有记录，返回最多20条、4000字符；不含restricted。",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string",
+          "enum": [
+            "life",
+            "work",
+            "health",
+            "unclassified"
+          ]
+        },
+        "start": {
+          "type": "string"
+        },
+        "end": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20
+        },
+        "tag": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "string"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "nexus_query",
+    "description": "仅固定查询，不接受SQL。金额minor units需按scale还原；统计只覆盖Nexus现存记录。 档案查找group_catalog(name)；整组列表group_records(group_id,limit,cursor)，按next_cursor翻页；完整全组金额group_summary(group_id)，不受分页限制；待归组候选group_pending；当前档案group_context。complete仅指已关联的有效私有记录，不能说覆盖所有聊天。 group_snapshots检查文字快照是否需更新；group_audit分页检查缺关联/待归组/费用未整理/疑似重复。候选不是事实，不自动新增消费或合并。 group_snapshot_members(group_id,snapshot_item_id)分页查看生成汇总依据的历史记录/版本。 records_by_period/domain_summary_candidates(start含,end不含,domain,limit,cursor)：完整SQL统计total_count/categorized_counts/uncategorized，正文仅分页/代表候选；has_more为真须翻页，不能把样本当全量。日期采用valid_from，其次financial.occurred_date/schedule.start_date；无日期记录在undated_count单列、不猜日期。trip_costs兼容entity_id并统一当前group路径；financial_totals可用group_id/domain筛选，仅booked，trip_costs/group_summary分列booked/quote/budget/commitment。 历史原话核验archive_history(name=关键词,limit<=3)仅返回有限已校验本人原始归档，不把摘要当原话。 unclassified_records(limit,cursor)完整列未分类，时间未知不猜；health查询只在原文明确健康意图时展开。 未来日程用upcoming_schedules(start/end/domain/limit/cursor)，按当前schedule.start_date筛选，不包含撤销日程。",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "template": {
+          "type": "string",
+          "enum": [
+            "financial_totals",
+            "open_tasks",
+            "person_timeline",
+            "trip_costs",
+            "domain_summary_candidates",
+            "records_by_period",
+            "pending_status",
+            "group_catalog",
+            "group_context",
+            "group_records",
+            "group_summary",
+            "group_pending",
+            "group_snapshots",
+            "group_audit",
+            "group_snapshot_members",
+            "archive_history",
+            "unclassified_records",
+            "upcoming_schedules"
+          ]
+        },
+        "start": {
+          "type": "string"
+        },
+        "end": {
+          "type": "string"
+        },
+        "entity_id": {
+          "type": "string"
+        },
+        "group_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20
+        },
+        "cursor": {
+          "type": "string"
+        },
+        "snapshot_item_id": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string",
+          "description": "领域筛选，如life/work/uncategorized。",
+          "enum": [
+            "life",
+            "work",
+            "health",
+            "unclassified"
+          ]
+        }
+      },
+      "required": [
+        "template"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "nexus_get_source",
+    "description": "读取item的已绑定少量原文，最多3 sources/3000字符；restricted不开放。",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "item_id": {
+          "type": "string"
+        },
+        "source_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "item_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "nexus_delete_preview",
+    "description": "仅预览结构化记录删除影响，永不删除Archive。soft delete需另用update并保留来源。",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "item_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "item_id"
+      ],
+      "additionalProperties": false
+    }
+  }
+]

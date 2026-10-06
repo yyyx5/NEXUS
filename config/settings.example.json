@@ -1,0 +1,10 @@
+{
+  "agent": "demo-agent",
+  "account": "demo-account",
+  "sourceDB": "/absolute/path/to/isolated/transcripts.sqlite3",
+  "archiveRoot": "/absolute/path/to/isolated/archive",
+  "owners": {
+    "telegram": [],
+    "wecom": []
+  }
+}

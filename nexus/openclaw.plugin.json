@@ -1,0 +1,26 @@
+{
+  "id": "local-nexus",
+  "name": "Local Nexus",
+  "description": "Source-bound owner private records",
+  "categories": [
+    "other"
+  ],
+  "activation": {
+    "onStartup": true
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+  },
+  "contracts": {
+    "tools": [
+      "nexus_save",
+      "nexus_update",
+      "nexus_search",
+      "nexus_query",
+      "nexus_get_source",
+      "nexus_delete_preview"
+    ]
+  }
+}

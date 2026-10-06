@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpenClaw raw archive v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "archive_event_id",
+    "logical_event_id",
+    "source_event_id",
+    "parent_id",
+    "source_event_sha256",
+    "agent_id",
+    "session_id",
+    "session_key",
+    "channel",
+    "channel_basis",
+    "conversation_identity",
+    "session_conversations",
+    "platform_message_id",
+    "role",
+    "event_type",
+    "message_type",
+    "original_timestamp",
+    "original_user_text",
+    "assistant_final_output",
+    "output_status",
+    "delivery_provenance",
+    "provider",
+    "model",
+    "classification",
+    "attachments",
+    "source",
+    "archived_at",
+    "source_event",
+    "record_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "archive_event_id": {
+      "type": "string",
+      "pattern": "^ocarc1_[0-9a-f]{64}$"
+    },
+    "source_event_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "record_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_event": {
+      "type": "object"
+    },
+    "source": {
+      "type": "object"
+    },
+    "attachments": {
+      "type": "array"
+    },
+    "classification": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

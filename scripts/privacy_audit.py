@@ -15,7 +15,7 @@ PATTERNS = {
     'credential': re.compile(r'(?:gh' + r'[opusr]_[A-Za-z0-9]{20,}|sk' + r'-[A-Za-z0-9_-]{20,}|AKIA[A-Z0-9]{16}|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----)'),
     'secret-assignment': re.compile(r'''(?i)(?:api[_-]?key|token|password|secret)\s*[=:]\s*["'][A-Za-z0-9_+/=-]{20,}["']'''),
 }
-PUBLIC_EMAIL = re.compile(r'^[0-9]+\+[^@]+@users\.noreply\.github\.com$')
+PUBLIC_EMAIL = re.compile(r'^(?:[0-9]+\+[^@]+@users\.noreply\.github\.com|noreply@github\.com)$')
 BAD_SUFFIX = re.compile(r'(?i)(?:\.sqlite[^/]*|\.db(?:-.*)?|\.log|\.jsonl|\.zst|\.png|\.jpe?g|\.pdf|\.xlsx|\.zip|\.pem|\.key|\.p12|-wal|-shm)$')
 BAD_DIRS = {'data','state','archive','backups','logs','attachments','conversations','runtime','sandbox'}
 

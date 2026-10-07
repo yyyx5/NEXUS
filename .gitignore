@@ -37,3 +37,8 @@ __pycache__/
 node_modules/
 .DS_Store
 coverage/
+
+# Optional mirrors and real configuration stay outside this repository.
+.nexus-managed.json
+**/settings.previous.json
+/extensions/obsidian/config.json

@@ -37,3 +37,14 @@ under MIT; downstream integration must comply with external dependencies' own li
 
 The public author/copyright identity is “Nexus contributors”. Git commits use the
 repository owner's GitHub no-reply address, not a private email or local machine name.
+
+## Optional Obsidian extension (2026-10-07)
+
+The reading renderer is adapted from the existing local mirror, with generic paths,
+configurable display timezone and explicit sensitive-content filtering. The public
+local-first synchronizer, opt-in/pause/schedule CLI, fictional demo, tests and bilingual
+instructions are newly authored for the edition. No production configuration, LaunchAgent,
+database, generated note, attachment, log or personal dossier is included.
+
+The extraction manifest separately records renderer/source hashes and newly authored
+modules. The Nexus core and v0.1.0 tag remain unchanged; this extension is experimental.

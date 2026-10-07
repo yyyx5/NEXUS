@@ -173,6 +173,23 @@ Nexus does not guarantee that every relevant historical record will be found, an
 
 The current adapter's prompts and some rules are mainly Chinese. The open-source edition has no built-in UI, automatic person merging, database encryption, or proactive memory delivery.
 
+## Optional: read life memories in Obsidian
+
+An experimental **Nexus → Obsidian one-way reading mirror** is now available as an optional visualization for the life recorder. It is disabled by default; Nexus works independently for recording and querying memories.
+
+```sh
+# Read the purpose, privacy notice and limits, then enable or skip (default: skip)
+python3 -B scripts/obsidian.py setup --language en
+# After opting in and saving settings, generate the reading mirror
+python3 -B scripts/obsidian.py sync
+```
+
+Skip now and rerun `setup` at any later time without reinstalling Nexus. Use `disable` to pause an enabled mirror. Health/restricted content and iCloud each require a separate explicit choice and are off by default.
+
+The mirror includes Chinese reading notes, timelines, existing dossier folders with continuous reading pages, an unclassified inbox and source evidence. Nexus remains the sole source of truth, with no reverse sync. Edits to generated notes are overwritten on subsequent syncs. Basic sync uses zero model tokens and makes no AI calls. Your own AI assistant may help with deployment; AI is outside the extension core.
+
+This macOS/Linux reference implementation has no long-term cross-device acceptance yet; macOS background iCloud access may require permission. Read [deployment choices, pausing and enabling later](docs/obsidian_EN.md) before choosing. AI monthly reviews, proactive delivery and bidirectional editing are not implemented.
+
 ## Quick start
 
 The public version is a reference implementation extracted from a running system. Quick start uses newly invented data and does not read existing personal material.
@@ -206,6 +223,7 @@ For higher privacy requirements, use local models and supporting local services,
 
 ```text
 nexus/      Core storage, queries, and OpenClaw adapter
+extensions/ Optional extensions (Obsidian mirror, disabled by default)
 schema/     SQLite schema and Archive contract
 docs/       Architecture, integration, privacy, and maintenance
 examples/   Entirely fictional examples
@@ -230,25 +248,9 @@ See [contribution guidance](CONTRIBUTING.md).
 
 The following are possibilities for Nexus's future. They may be implemented gradually, changed, or never implemented. They are offered for discussion and reference, **not as promises of current-version functionality**.
 
-### 1. Connecting Obsidian: making life memories readable by people
+The Obsidian reading mirror is implemented as the optional experimental extension above. More advanced AI reviews remain future ideas.
 
-Nexus and Obsidian can serve different roles:
-
-**Nexus supports preservation and access for AI; Obsidian supports reading, browsing, and editing for people.**
-
-Nexus preserves experiences, expressions, sources, and changes over time. Obsidian could present this material as readable notes, timelines, person pages, and thematic essays.
-
-The idea is to keep recording naturally through Nexus without maintaining a separate set of notes in parallel. Whenever you want to look back, or every month, six months, or year, an agent could organize Nexus records into a knowledge base for reading in Obsidian.
-
-It could represent a period of life, a trip, the development of a relationship, or the gradual formation of an idea.
-
-**Nexus remembers the facts; Obsidian presents the story of a life.**
-
-“Remembering the facts” also means faithfully preserving “I had this dream,” “I felt this way,” or “I heard this account,” while distinguishing the expression itself from external facts.
-
-The resulting writing should remain traceable to original evidence. Later additions and corrections should be reflected in future organized versions, so the knowledge base can keep evolving after an export.
-
-### 2. Proactive memory delivery: recalling a helpful past at the right time
+### Proactive memory delivery: recalling a helpful past at the right time
 
 Currently, the user generally asks a question and then memories are retrieved.
 

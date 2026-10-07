@@ -1,0 +1,8 @@
+{
+  "enabled": false,
+  "database": "<absolute-path-to-your-own-nexus.sqlite3>",
+  "local_vault": "<absolute-path-to-local-Nexus>",
+  "icloud_vault": null,
+  "include_sensitive": false,
+  "timezone": "UTC"
+}

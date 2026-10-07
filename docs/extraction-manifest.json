@@ -82,5 +82,24 @@
       "production_sha256": "7c7915274bf1e8d70f21e9871627cc6f536fa18b3afa92a79f12ea3fb4481711",
       "edition_sha256": "750b1b7236e097df29925e25b5fca734495d6ce1e40a82644e4ff113e0b94699"
     }
+  ],
+  "optional_extensions": [
+    {
+      "name": "obsidian",
+      "status": "experimental, optional, disabled by default",
+      "audit_date": "2026-10-07",
+      "renderer": {
+        "production_sha256": "0512f01fbeccaba022830ef1974c422311de697f12dcc76caf856c7a911662aa",
+        "edition_sha256": "b0cd646ea3d061ff3d09cbf0fa6e9285f58077de610350785b0d1613f6123357"
+      },
+      "synchronizer_reference_sha256": "37b9a76dd6fcee81f0f92a1751848bee0270f8d8acb3bff16fd3e37145b2ecae",
+      "newly_authored": [
+        "extensions/obsidian/mirror.py",
+        "extensions/obsidian/setup.py",
+        "scripts/obsidian.py",
+        "scripts/obsidian_demo.py",
+        "tests/test_obsidian.py"
+      ]
+    }
   ]
 }

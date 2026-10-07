@@ -2,8 +2,9 @@
 
 **永久个人记忆基础框架**
 
-v0.1.0 · MIT · [English](README_EN.md)
+v0.2.0 · MIT · [English](README_EN.md)
 
+[版本说明与下载](https://github.com/yyyx5/nexus/releases/tag/v0.2.0)
 Nexus 为个人 AI 提供长期记忆的持久层。
 
 接入 AI Agent 后，你可以用自然语言记录经历、想法、人物和生活片段，不必每次都先决定分类、填写字段，或把内容整理成完整文章。Nexus 保留原始表达、记录来源和版本，使这些零散内容能够在以后被检索、关联，并由 Agent 按你的需要重新组织。

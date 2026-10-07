@@ -1,6 +1,6 @@
 {
   "audit_date": "2026-10-06",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "modules": [
     {
       "module": "base.py",
@@ -75,7 +75,7 @@
     {
       "module": "package.json",
       "production_sha256": "3d6979b0d8aad63ac129d3a613c4cd4344c785b9ca5870a5a329dcba55b5e13d",
-      "edition_sha256": "3d6979b0d8aad63ac129d3a613c4cd4344c785b9ca5870a5a329dcba55b5e13d"
+      "edition_sha256": "056c91c07045bed70e7888e4490ff11d0b48155b827909b37093ecf8404b51d2"
     },
     {
       "module": "schema.sql",
@@ -101,5 +101,7 @@
         "tests/test_obsidian.py"
       ]
     }
-  ]
+  ],
+  "original_extraction_version": "0.1.0",
+  "release_audit_date": "2026-10-07"
 }

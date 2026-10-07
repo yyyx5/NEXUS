@@ -48,3 +48,11 @@ database, generated note, attachment, log or personal dossier is included.
 
 The extraction manifest separately records renderer/source hashes and newly authored
 modules. The Nexus core and v0.1.0 tag remain unchanged; this extension is experimental.
+
+## v0.2.0 release (2026-10-07)
+
+The optional Obsidian mirror is packaged as the second public release. README
+headers, package metadata and the public manifest identify v0.2.0. The manifest
+retains the original extraction date/version and source hashes; its package edition
+hash reflects the metadata version bump. The v0.1.0 tag and release remain available.
+Nexus storage, schema and tool implementations are unchanged.

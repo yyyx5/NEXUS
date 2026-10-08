@@ -4,7 +4,7 @@
 
 v0.2.0 · MIT · [English](README_EN.md)
 
-[版本说明与下载](https://github.com/yyyx5/nexus/releases/tag/v0.2.0)
+[版本说明与下载](https://github.com/yyyx5/NEXUS/releases/tag/v0.2.0)
 Nexus 为个人 AI 提供长期记忆的持久层。
 
 接入 AI Agent 后，你可以用自然语言记录经历、想法、人物和生活片段，不必每次都先决定分类、填写字段，或把内容整理成完整文章。Nexus 保留原始表达、记录来源和版本，使这些零散内容能够在以后被检索、关联，并由 Agent 按你的需要重新组织。
@@ -198,8 +198,8 @@ python3 -B scripts/obsidian.py sync
 需要 Python 3.10+，以及支持 JSON 和 FTS5 trigram 的 SQLite。
 
 ```sh
-git clone https://github.com/yyyx5/nexus.git
-cd nexus
+git clone https://github.com/yyyx5/NEXUS.git
+cd NEXUS
 
 python3 -B scripts/demo.py
 python3 -B -m unittest discover -s tests -v

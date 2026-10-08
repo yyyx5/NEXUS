@@ -1,10 +1,10 @@
-# nexus
+# NEXUS
 
 **Permanent Personal Memory Framework**
 
 v0.2.0 · MIT · [中文](README.md)
 
-[Release notes and downloads](https://github.com/yyyx5/nexus/releases/tag/v0.2.0)
+[Release notes and downloads](https://github.com/yyyx5/NEXUS/releases/tag/v0.2.0)
 Nexus provides a persistent layer for long-term personal AI memory.
 
 With an AI agent connected, you can record experiences, thoughts, people, and moments from your life in natural language. You do not have to choose a category, fill in fields, or turn every entry into a finished essay. Nexus preserves original expressions, sources, and versions so these scattered fragments can later be retrieved, connected, and organized by the agent when you need them.
@@ -198,8 +198,8 @@ The public version is a reference implementation extracted from a running system
 Requires Python 3.10+ and SQLite with JSON and FTS5 trigram support.
 
 ```sh
-git clone https://github.com/yyyx5/nexus.git
-cd nexus
+git clone https://github.com/yyyx5/NEXUS.git
+cd NEXUS
 
 python3 -B scripts/demo.py
 python3 -B -m unittest discover -s tests -v
